@@ -20,7 +20,7 @@ const FeaturedBrands: React.FC = () => {
             key={brand.name}
             src={brand.src}
             alt={brand.name}
-            className="h-10 mx-4"
+            className="h-10 mx-6"
           />
         ))}
         <div className="flex items-center">
