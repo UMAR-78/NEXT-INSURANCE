@@ -1,13 +1,16 @@
 import React from "react";
 import { MdLanguage } from "react-icons/md";
 import { IoSearchOutline } from "react-icons/io5";
+
 const Navbar: React.FC = () => {
   return (
-    <nav className=" fixed top-0 left-0 right-0 z-10 flex justify-between items-center py-7 px-16  bg-white">
-      <div className="flex items-center space-x-4">
-        <div className="text-customLightBlue font-bold text-4xl">NEXT</div>
-        <div className="space-x-9">
-          <a href="#" className="text-gray-900 text-lg  hover:text-customBlue">
+    <nav className="fixed top-0 left-0 right-0 z-10 flex justify-between items-center py-4 px-8 bg-white">
+      <div className="flex items-center space-x-4 w-full">
+        <a href="#" className="text-customLightBlue font-bold text-4xl">
+          NEXT
+        </a>
+        <div className="flex-grow flex justify-center space-x-6">
+          <a href="#" className="text-gray-900 text-lg hover:text-customBlue">
             Coverage
           </a>
           <a href="#" className="text-gray-900 text-lg hover:text-customBlue">
@@ -23,33 +26,30 @@ const Navbar: React.FC = () => {
             Support
           </a>
           <a href="#" className="text-gray-900 text-lg hover:text-customBlue">
-            About Us |{" "}
+            About Us
           </a>
-        </div>
-      </div>
-      <div className="flex items-center space-x-4">
-        <a href="#" className="flex items-center gap-1 text-gray-900">
-          {" "}
-          <MdLanguage /> ES
-        </a>
-        <div className="group">
+          <a href="#" className="flex items-center gap-1 text-gray-900">
+            <MdLanguage /> ES
+          </a>
           <a
             href="#"
-            className="text-gray-700 border border-gray-900 rounded-full px-4 py-1 transition duration-300 group-hover:bg-black group-hover:text-white"
+            className="text-gray-700 border border-gray-900 rounded-full px-4 py-1 transition duration-300 hover:bg-black hover:text-white"
           >
             Login
           </a>
+          <a
+            href="#"
+            className="bg-customBlue transition-all text-white rounded-full px-4 py-1 hover:bg-customLightBlue"
+          >
+            Get Instant Quote
+          </a>
+          <a href="#" className="text-customLightBlue">
+            <IoSearchOutline />
+          </a>
         </div>
-
-        <a
-          href="#"
-          className="bg-customBlue transition-all text-white rounded-full px-4 py-1 hover:bg-customLightBlue"
-        >
-          Get Instant Quote
-        </a>
-        <a href="#" className="text-customLightBlue">
-          <IoSearchOutline />
-        </a>
+        <div className="flex items-center space-x-4">
+          
+        </div>
       </div>
     </nav>
   );

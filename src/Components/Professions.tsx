@@ -1,0 +1,47 @@
+import React from "react";
+import { FaChevronRight } from "react-icons/fa6";
+import { BsChevronRight } from "react-icons/bs";
+const professions = [
+  { name: "Food & Beverage", img: "./food-inline-2.jpg" },
+  { name: "Contractors", img: "./construction2inlin.png" },
+  { name: "Retail", img: "./retail_inline.png" },
+  { name: "Cleaning", img: "./Cleaning_inline.png" },
+  { name: "Fitness", img: "./fitness-inline-2.jpg" },
+  { name: "Amazon Sellers", img: "./amazon_inline.png" },
+  { name: "Engineers & Architects", img: "./Archi_inline.png" },
+  { name: "Entertainment", img: "./Entertainment_inline.png" },
+];
+
+const Professions: React.FC = () => {
+  return (
+    <div className="px-6 mt-20 flex flex-col items-center">
+      <h2 className="text-4xl font-bold text-center  mb-8">
+        Tailored insurance by profession
+      </h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 cursor-pointer">
+        {professions.map((profession) => (
+          <div
+            key={profession.name}
+            className="w-64 h-48 group border rounded-lg overflow-hidden  transition duration-300 hover:bg-customLightBlue"
+          >
+            <img
+              src={profession.img}
+              alt={profession.name}
+              className="w-full pt-4 pl-4 pr-4  object-cover"
+            />
+            <div className="pt-1 pl-4 pr-4">
+              <p className="flex items-center gap-4">
+                {profession.name} <BsChevronRight className="text-sm font-extralight" />
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div className="mt-14 mb-10 group">
+        <a href="#" className="border border-black rounded-full px-12 py-4 text-xl group-hover:bg-black group-hover:text-white transition">More Professions</a>
+      </div>
+    </div>
+  );
+};
+
+export default Professions;
