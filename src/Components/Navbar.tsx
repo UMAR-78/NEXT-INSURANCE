@@ -1,0 +1,58 @@
+import React from "react";
+import { MdLanguage } from "react-icons/md";
+import { IoSearchOutline } from "react-icons/io5";
+const Navbar: React.FC = () => {
+  return (
+    <nav className=" fixed top-0 left-0 right-0 z-10 flex justify-between items-center py-7 px-16  bg-white">
+      <div className="flex items-center space-x-4">
+        <div className="text-customLightBlue font-bold text-4xl">NEXT</div>
+        <div className="space-x-9">
+          <a href="#" className="text-gray-900 text-lg  hover:text-customBlue">
+            Coverage
+          </a>
+          <a href="#" className="text-gray-900 text-lg hover:text-customBlue">
+            Who We Insure
+          </a>
+          <a href="#" className="text-gray-900 text-lg hover:text-customBlue">
+            Certificate
+          </a>
+          <a href="#" className="text-gray-900 text-lg hover:text-customBlue">
+            Partner
+          </a>
+          <a href="#" className="text-gray-900 text-lg hover:text-customBlue">
+            Support
+          </a>
+          <a href="#" className="text-gray-900 text-lg hover:text-customBlue">
+            About Us |{" "}
+          </a>
+        </div>
+      </div>
+      <div className="flex items-center space-x-4">
+        <a href="#" className="flex items-center gap-1 text-gray-900">
+          {" "}
+          <MdLanguage /> ES
+        </a>
+        <div className="group">
+          <a
+            href="#"
+            className="text-gray-700 border border-gray-900 rounded-full px-4 py-1 transition duration-300 group-hover:bg-black group-hover:text-white"
+          >
+            Login
+          </a>
+        </div>
+
+        <a
+          href="#"
+          className="bg-customBlue transition-all text-white rounded-full px-4 py-1 hover:bg-customLightBlue"
+        >
+          Get Instant Quote
+        </a>
+        <a href="#" className="text-customLightBlue">
+          <IoSearchOutline />
+        </a>
+      </div>
+    </nav>
+  );
+};
+
+export default Navbar;
