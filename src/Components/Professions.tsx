@@ -1,5 +1,4 @@
 import React from "react";
-import { FaChevronRight } from "react-icons/fa6";
 import { BsChevronRight } from "react-icons/bs";
 const professions = [
   { name: "Food & Beverage", img: "./food-inline-2.jpg" },
