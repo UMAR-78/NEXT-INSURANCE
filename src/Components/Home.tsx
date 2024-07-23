@@ -5,7 +5,7 @@ import Professions from "./Professions";
 
 const Home: React.FC = () => {
   return (
-    <div className="mt-32">
+    <div className="mt-16 md:mt-32">
       <Hero />
       <FeaturedBrands />
       <Professions />
