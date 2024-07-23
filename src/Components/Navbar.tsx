@@ -11,25 +11,25 @@ const Navbar: React.FC = () => {
           NEXT
         </a>
         <div className="hidden md:flex items-center justify-center space-x-7">
-          <a href="#" className="text-gray-900 text-lg hover:text-customBlue">
+          <a href="#" className="text-gray-900 text-xl hover:text-customBlue">
             Coverage
           </a>
-          <a href="#" className="text-gray-900 text-lg hover:text-customBlue">
+          <a href="#" className="text-gray-900 text-xl hover:text-customBlue">
             Who We Insure
           </a>
-          <a href="#" className="text-gray-900 text-lg hover:text-customBlue">
+          <a href="#" className="text-gray-900 text-xl hover:text-customBlue">
             Certificate
           </a>
-          <a href="#" className="text-gray-900 text-lg hover:text-customBlue">
+          <a href="#" className="text-gray-900 text-xl hover:text-customBlue">
             Partner
           </a>
-          <a href="#" className="text-gray-900 text-lg hover:text-customBlue">
+          <a href="#" className="text-gray-900 text-xl hover:text-customBlue">
             Support
           </a>
-          <a href="#" className="text-gray-900 text-lg hover:text-customBlue">
+          <a href="#" className="text-gray-900 text-xl hover:text-customBlue">
             About Us
           </a>
-          <a href="#" className="flex items-center gap-1 text-gray-900">
+          <a href="#" className="flex items-center gap-1 text-gray-900 text-xl">
             <MdLanguage /> ES
           </a>
           <a

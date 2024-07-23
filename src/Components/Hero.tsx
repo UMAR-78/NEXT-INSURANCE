@@ -32,7 +32,7 @@ const options = [
 const Hero: React.FC = () => {
   return (
     <div className="max-w-screen-2xl mx-auto p-4 md:px-6">
-      <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-center mb-4 md:leading-none leading-9">
+      <h1 className="text-3xl sm:text-4xl md:text-6xl font-extrabold text-center mb-4 md:leading-none leading-9">
         WE’RE 100% DEDICATED TO SMALL BUSINESS.
       </h1>
       <p className="text-center text-xl sm:text-2xl md:text-3xl mb-6">
