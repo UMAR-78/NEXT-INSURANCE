@@ -47,24 +47,26 @@ const Hero: React.FC = () => {
             <a
               href={option.link}
               key={option.name}
-              className="group flex md:flex-col items-center justify-between p-4 border-2 border-gray-300 cursor-pointer rounded-lg transition duration-300 w-full sm:w-48 md:w-52 lg:w-56 md:h-64 hover:border-customBlue"
+              className="group flex items-center md:flex-col justify-between p-2 md:p-4 border-2 border-gray-300 cursor-pointer rounded-lg transition duration-300 w-full sm:w-64 md:w-52 lg:w-56 md:h-64 hover:border-customBlue"
             >
               <img
                 src={option.icon}
                 alt={option.name}
                 className="w-24 h-24 sm:w-28 sm:h-28 md:w-36 md:h-36 grayscale group-hover:grayscale-0 transition duration-300"
               />
-              <h2 className="text-base sm:text-base md:text-sm font-semibold  md:text-center mb-4">
-                {option.name}
-              </h2>
-              <button className="hidden md:block text-sm text-blue-600 border border-blue-600 rounded-full px-6 py-2 transition duration-300 group-hover:bg-customBlue group-hover:text-white">
-                Get a Quote
-              </button>
+              <div className="flex flex-col ml-6 md:ml-0 justify-between w-full">
+                <h2 className="text-lg sm:text-base md:text-sm font-semibold md:text-center mb-4">
+                  {option.name}
+                </h2>
+                <button className="hidden md:block text-sm text-blue-600 border border-blue-600 rounded-full px-6 py-2 transition duration-300 group-hover:bg-customBlue group-hover:text-white">
+                  Get a Quote
+                </button>
+              </div>
               <BsChevronRight className="block md:hidden text-2xl" />
             </a>
           ))}
         </div>
-        <a href="#" className="text-customBlue mt-4 ">
+        <a href="#" className="text-customBlue mt-4">
           Return to Quote
         </a>
       </div>

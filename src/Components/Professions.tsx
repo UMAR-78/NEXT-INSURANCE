@@ -14,7 +14,7 @@ const professions = [
 
 const Professions: React.FC = () => {
   return (
-    <div className="p-3 md:px-6 mt-20 flex flex-col items-center">
+    <div className="p-3 md:px-6 mt-10 md:mt-20 flex flex-col items-center">
       <h2 className="text-4xl font-bold text-center mb-8">
         Tailored insurance by profession
       </h2>
@@ -22,12 +22,12 @@ const Professions: React.FC = () => {
         {professions.map((profession) => (
           <div
             key={profession.name}
-            className="w-full h-48 group border rounded-lg overflow-hidden transition duration-300 hover:bg-customLightBlue"
+            className="w-[258px] h-54 group border rounded-lg overflow-hidden transition duration-300 hover:bg-customLightBlue"
           >
             <img
               src={profession.img}
               alt={profession.name}
-              className="w-full h-2/3 object-cover"
+              className="w-full h-2/3 p-3 object-cover"
             />
             <div className="pt-2 pl-4 pr-4">
               <p className="flex items-center gap-2">
