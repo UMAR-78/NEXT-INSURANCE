@@ -22,7 +22,7 @@ const Professions: React.FC = () => {
         {professions.map((profession) => (
           <div
             key={profession.name}
-            className="w-[258px] h-54 group border rounded-lg overflow-hidden transition duration-300 hover:bg-customLightBlue"
+            className="md:w-[258px] h-54 group border rounded-lg overflow-hidden transition duration-300 hover:bg-customLightBlue"
           >
             <img
               src={profession.img}
