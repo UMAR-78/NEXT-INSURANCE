@@ -14,7 +14,7 @@ const professions = [
 
 const Professions: React.FC = () => {
   return (
-    <div className="max-w-screen-xl mx-auto p-4 md:p-6 mt-10 md:mt-20 flex flex-col items-center">
+    <div className="max-w-screen-2xl mx-auto p-4 md:p-6 mt-10 md:mt-20 flex flex-col items-center">
       <h2 className="text-4xl font-bold text-center mb-8">
         Tailored insurance by profession
       </h2>
