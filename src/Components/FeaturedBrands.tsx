@@ -12,7 +12,7 @@ const featuredBrands = [
 const FeaturedBrands: React.FC = () => {
   return (
     <div className="bg-[#231f20] py-4 mt-12">
-      <div className="max-w-screen-2xl mx-auto px-4 md:px-10 flex flex-wrap justify-center items-center text-white gap-4">
+      <div className="max-w-screen-4xl mx-auto px-4 md:px-10 flex flex-wrap justify-center items-center text-white gap-4">
         <span className="text-lg md:text-xl font-semibold hidden md:block">Featured On</span>
         {featuredBrands.map((brand) => (
           <img
