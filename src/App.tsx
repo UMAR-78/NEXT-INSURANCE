@@ -6,7 +6,7 @@ import Home from "./Components/Home";
 const App: React.FC = () => {
   return (
     <Router>
-      <div>
+      <div className="">
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />

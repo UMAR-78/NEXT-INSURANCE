@@ -6,14 +6,11 @@ import { FiMenu } from "react-icons/fi";
 const Navbar: React.FC = () => {
   return (
     <nav className="fixed top-0 left-0 right-0 z-10 bg-white ">
-      <div className=" flex justify-center items-center py-4  md:px-8">
+      <div className="max-w-screen-xl mx-auto flex justify-between items-center py-4 px-6 md:px-8">
+        <a href="#" className="text-customLightBlue font-bold text-2xl md:text-4xl">
+          NEXT
+        </a>
         <div className="hidden md:flex items-center justify-center space-x-7">
-          <a
-            href="#"
-            className="text-customLightBlue font-bold text-2xl md:text-4xl"
-          >
-            NEXT
-          </a>
           <a href="#" className="text-gray-900 text-lg hover:text-customBlue">
             Coverage
           </a>
