@@ -207,7 +207,7 @@ const Footer: React.FC = () => {
               © 2024 Next Insurance, Inc. 975 California Ave, Palo Alto, CA
               94304, United States
             </span>
-            <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4">
+            <div className="flex flex-col items-center md:items-start md:flex-row space-y-2 md:space-y-0 md:space-x-4">
               <a href="#" className="hover:text-gray-300">
                 Terms of Service
               </a>
