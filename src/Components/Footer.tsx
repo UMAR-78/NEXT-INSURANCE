@@ -1,7 +1,24 @@
-import React from "react";
-import { FaFacebook, FaInstagram, FaTwitter, FaLinkedin, FaYoutube, FaTiktok } from "react-icons/fa";
+import React, { useState } from "react";
+import {
+  FaFacebook,
+  FaInstagram,
+  FaTwitter,
+  FaLinkedin,
+  FaYoutube,
+  FaTiktok,
+} from "react-icons/fa";
 
-const footerData = [
+interface Link {
+  name: string;
+  url: string;
+}
+
+interface Section {
+  title: string;
+  links: Link[];
+}
+
+const footerData: Section[] = [
   {
     title: "What we cover",
     links: [
@@ -95,17 +112,56 @@ const footerData = [
 ];
 
 const Footer: React.FC = () => {
+  const [openSections, setOpenSections] = useState<Record<string, boolean>>({});
+
+  const toggleSection = (title: string) => {
+    setOpenSections((prevOpenSections) => ({
+      ...prevOpenSections,
+      [title]: !prevOpenSections[title],
+    }));
+  };
+
   return (
     <footer className="bg-[#231f20] text-white py-8">
-      <div className="max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-8">
+      <div className="max-w-screen-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="md:grid md:grid-cols-3 lg:grid-cols-5 gap-8">
           {footerData.map((section) => (
-            <div key={section.title}>
-              <h3 className="font-semibold text-3xl mb-3">{section.title}</h3>
-              <ul>
+            <div key={section.title} className="mb-4 md:mb-0">
+              <h3
+                className="font-semibold text-lg border-b md:border-none md:text-3xl mb-3 cursor-pointer md:cursor-auto"
+                onClick={() => toggleSection(section.title)}
+              >
+                {section.title}
+                <span className="float-right md:hidden">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className={`h-6 w-6 transform transition-transform duration-200 ${
+                      openSections[section.title] ? "rotate-180" : ""
+                    }`}
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </span>
+              </h3>
+              <ul
+                className={`${
+                  openSections[section.title] ? "block" : "hidden"
+                } md:block`}
+              >
                 {section.links.map((link, index) => (
                   <li key={index} className="mb-2">
-                    <a href={link.url} className="hover:text-gray-300 text-base">
+                    <a
+                      href={link.url}
+                      className="hover:text-gray-300 text-base"
+                    >
                       {link.name}
                     </a>
                   </li>
@@ -114,35 +170,79 @@ const Footer: React.FC = () => {
             </div>
           ))}
         </div>
-        <div className=" mt-8 pt-8">
-          <div className="flex justify-between items-center border-t border-white py-6">
-            <div className="flex space-x-40">
-              <a href="#" className="text-base hover:text-gray-300">Contact Us</a>
-              <a href="#" className="hover:text-gray-300 text-base">Chat with Us</a>
+        <div className="mt-8 pt-8">
+          <div className="flex flex-col md:flex-row justify-between items-center border-t border-white py-6">
+            <div className="flex flex-col md:flex-row text-center md:text-start space-y-4 md:space-y-0 md:space-x-40">
+              <a href="#" className="text-base hover:text-gray-300">
+                Contact Us
+              </a>
+              <a href="#" className="hover:text-gray-300 text-base">
+                Chat with Us
+              </a>
               <span className="text-base">Mon – Fri | 8 a.m. – 5 p.m. CT</span>
             </div>
-            <div className="flex space-x-4">
-              <a href="#" className="text-3xl hover:text-gray-300"><FaFacebook /></a>
-              <a href="#" className="text-3xl hover:text-gray-300"><FaInstagram /></a>
-              <a href="#" className="text-3xl hover:text-gray-300"><FaTiktok /></a>
-              <a href="#" className="text-3xl hover:text-gray-300"><FaTwitter /></a>
-              <a href="#" className="text-3xl hover:text-gray-300"><FaLinkedin /></a>
-              <a href="#" className="text-3xl hover:text-gray-300"><FaYoutube /></a>
+            <div className="flex space-x-4 mt-4 md:mt-0">
+              <a href="#" className="text-3xl hover:text-gray-300">
+                <FaFacebook />
+              </a>
+              <a href="#" className="text-3xl hover:text-gray-300">
+                <FaInstagram />
+              </a>
+              <a href="#" className="text-3xl hover:text-gray-300">
+                <FaTiktok />
+              </a>
+              <a href="#" className="text-3xl hover:text-gray-300">
+                <FaTwitter />
+              </a>
+              <a href="#" className="text-3xl hover:text-gray-300">
+                <FaLinkedin />
+              </a>
+              <a href="#" className="text-3xl hover:text-gray-300">
+                <FaYoutube />
+              </a>
             </div>
           </div>
-          <div className="flex items-center  justify-between mt-4 border-t border-white py-6">
-            <span>© 2024 Next Insurance, Inc. 975 California Ave, Palo Alto, CA 94304, United States</span> | 
-            <a href="#" className="hover:text-gray-300 ">Terms of Service</a> | 
-            <a href="#" className="hover:text-gray-300 ">Privacy Policy</a> | 
-            <a href="#" className="hover:text-gray-300 ">Licenses</a>
-            <img src="./bbb.jpg" alt="" />
+          <div className="flex flex-col md:flex-row items-center justify-between mt-4 border-t border-white py-6 space-y-4 md:space-y-0">
+            <span className="text-center md:text-left">
+              © 2024 Next Insurance, Inc. 975 California Ave, Palo Alto, CA
+              94304, United States
+            </span>
+            <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-4">
+              <a href="#" className="hover:text-gray-300">
+                Terms of Service
+              </a>
+              <a href="#" className="hover:text-gray-300">
+                Privacy Policy
+              </a>
+              <a href="#" className="hover:text-gray-300">
+                Licenses
+              </a>
+            </div>
+            <img src="./bbb.jpg" alt="" className="" />
           </div>
           <div className="mt-4 border-t border-white py-6">
-            <p className="text-base">
-              Issuance of coverage is subject to underwriting. Not available in all states. Please see the policy for full terms, conditions, and exclusions. Coverage examples are for illustrative purposes only. Your policy documents govern, terms and exclusions apply. Coverage is dependent on actual facts and circumstances giving rise to a claim. Next Insurance, Inc. and/or its affiliates is an insurance agency licensed to sell certain insurance products and may receive compensation from insurance companies for such sales. Policy obligations are the sole responsibility of the issuing insurance company. Refer to Legal Notices section for additional information.
+            <p className="text-sm md:text-base">
+              Issuance of coverage is subject to underwriting. Not available in
+              all states. Please see the policy for full terms, conditions, and
+              exclusions. Coverage examples are for illustrative purposes only.
+              Your policy documents govern, terms and exclusions apply. Coverage
+              is dependent on actual facts and circumstances giving rise to a
+              claim. Next Insurance, Inc. and/or its affiliates is an insurance
+              agency licensed to sell certain insurance products and may receive
+              compensation from insurance companies for such sales. Policy
+              obligations are the sole responsibility of the issuing insurance
+              company. Refer to Legal Notices section for additional
+              information.
             </p>
-            <p className="text-base mt-6">
-              † Any starting prices or premiums represented before an actual customer quote are not guaranteed and are representations of existing premiums of active policies as of December 6, 2023. To the extent permitted by law, applicants are individually underwritten, not all applicants may qualify. Individual rates and savings vary and are subject to change. Discounts and savings are available where state laws and regulations allow, and may vary by state. Certain discounts apply to specific coverages only.
+            <p className="text-sm md:text-base mt-6">
+              † Any starting prices or premiums represented before an actual
+              customer quote are not guaranteed and are representations of
+              existing premiums of active policies as of December 6, 2023. To
+              the extent permitted by law, applicants are individually
+              underwritten, not all applicants may qualify. Individual rates and
+              savings vary and are subject to change. Discounts and savings are
+              available where state laws and regulations allow, and may vary by
+              state. Certain discounts apply to specific coverages only.
             </p>
           </div>
         </div>
