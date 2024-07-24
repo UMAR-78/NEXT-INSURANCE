@@ -37,7 +37,7 @@ const Professions: React.FC = () => {
           </div>
         ))}
       </div>
-      <div className="mt-14 mb-10 group">
+      <div className="mt-14  group">
         <a href="#" className="border border-black rounded-full px-12 py-4 text-xl group-hover:bg-black group-hover:text-white transition">
           More Professions
         </a>

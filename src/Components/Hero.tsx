@@ -47,7 +47,7 @@ const Hero: React.FC = () => {
             <a
               href={option.link}
               key={option.name}
-              className="group flex items-center md:flex-col justify-between p-2 md:p-4 border-2 border-gray-300 cursor-pointer rounded-lg transition duration-300 w-64 md:w-52 lg:w-56 md:h-64 hover:border-customBlue"
+              className="group flex items-center md:flex-col justify-between p-2 md:p-4 border-2 border-gray-300 cursor-pointer rounded-lg transition duration-300 w-full md:w-52 lg:w-56 md:h-64 hover:border-customBlue"
             >
               <img
                 src={option.icon}
