@@ -1,19 +1,56 @@
-import React from "react";
+import React, { useState, useRef } from "react";
+import { Link } from "react-router-dom";
 import { MdLanguage } from "react-icons/md";
 import { IoSearchOutline } from "react-icons/io5";
 import { FiMenu } from "react-icons/fi";
 
 const Navbar: React.FC = () => {
+  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+  const timerRef = useRef<number | null>(null);
+
+  const handleMouseEnter = () => {
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+    }
+    setIsDropdownVisible(true);
+  };
+
+  const handleMouseLeave = () => {
+    timerRef.current = window.setTimeout(() => {
+      setIsDropdownVisible(false);
+    }, 100); // Adjust the delay as needed
+  };
+
   return (
-    <nav className="fixed top-0 left-0 right-0 z-10 bg-white ">
+    <nav className="fixed top-0 left-0 right-0 z-10 bg-white">
       <div className="max-w-screen-4xl mx-auto flex justify-between items-center py-4 px-6 md:px-6">
-        <a href="#" className="text-customLightBlue font-bold text-2xl md:text-4xl">
+        <Link to='/' className="text-customLightBlue font-bold text-2xl md:text-4xl">
           NEXT
-        </a>
+        </Link>
         <div className="hidden md:flex items-center justify-center space-x-7">
-          <a href="#" className="text-gray-900 text-xl hover:text-customBlue">
-            Coverage
-          </a>
+          <div
+            className="relative"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+          >
+            <a href="#" className="text-gray-900 text-xl hover:text-customBlue">
+              Coverage
+            </a>
+            {isDropdownVisible && (
+              <div
+                className="absolute top-full left-0 mt-6 w-48 bg-white border border-black shadow-lg rounded-lg"
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+              >
+                <Link
+                  to="/business-insurance" // Change this to the URL of the new page
+                  className="block px-4 py-2 text-gray-700 hover:text-customBlue"
+                >
+                  Business Insurance
+                </Link>
+              </div>
+            )}
+          </div>
           <a href="#" className="text-gray-900 text-xl hover:text-customBlue">
             Who We Insure
           </a>
