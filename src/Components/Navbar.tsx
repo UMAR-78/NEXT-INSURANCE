@@ -70,7 +70,7 @@ const Navbar: React.FC = () => {
             <MdLanguage /> ES
           </a>
           <a
-            href="#"
+            href="/login"
             className="text-gray-700 border border-gray-900 rounded-full px-4 py-1 transition duration-300 hover:bg-black hover:text-white"
           >
             Login
