@@ -41,6 +41,18 @@ const Login: React.FC = () => {
     return re.test(String(email).toLowerCase());
   };
 
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setEmail(value);
+    if (!value) {
+      setError("This field is required");
+    } else if (!validateEmail(value)) {
+      setError("Please enter a valid email address");
+    } else {
+      setError("");
+    }
+  };
+
   // Mock API call function
   const mockApiCall = (email: string) => {
     return new Promise<{ email: string; Msg: string; status: string }>((resolve) => {
@@ -86,7 +98,7 @@ const Login: React.FC = () => {
               required
               className="block w-full px-3 py-2 mt-1 text-gray-900 bg-white border border-gray-300 rounded-lg shadow-sm sm:text-sm"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={handleEmailChange}
             />
             {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
           </div>
