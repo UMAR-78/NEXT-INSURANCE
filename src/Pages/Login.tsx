@@ -5,8 +5,10 @@ import { MdLanguage } from "react-icons/md";
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
+  const [apiError, setApiError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email) {
       setError("This field is required");
@@ -14,7 +16,23 @@ const Login: React.FC = () => {
       setError("Please enter a valid email address");
     } else {
       setError("");
-      // Handle login logic here
+      setLoading(true);
+      setApiError("");
+
+      // API call
+      try {
+        const response = await mockApiCall(email);
+        if (response.status === "success") {
+          // Handle successful login logic here
+          console.log(response);
+        } else {
+          setApiError("An error occurred. Please try again.");
+        }
+      } catch (err) {
+        setApiError("An error occurred. Please try again.");
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
@@ -23,20 +41,33 @@ const Login: React.FC = () => {
     return re.test(String(email).toLowerCase());
   };
 
+  // Mock API call function
+  const mockApiCall = (email: string) => {
+    return new Promise<{ email: string; Msg: string; status: string }>((resolve) => {
+      setTimeout(() => {
+        resolve({
+          email,
+          Msg: "email-exists",
+          status: "success",
+        });
+      }, 1000);
+    });
+  };
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
-      <header className="flex w-full fixed top-0 left-0 right-0 px-10 py-7 items-center justify-between mb-8 border-b-2 z-50 bg-white">
-        <a href="/" className="text-6xl font-extrabold text-customLightBlue">
+      <header className="flex w-full fixed top-0 left-0 right-0 px-4 md:px-10 py-5 md:py-7 items-center justify-between mb-8 border-b-2 z-50 bg-white">
+        <a href="/" className="text-4xl md:text-6xl font-extrabold text-customLightBlue">
           NEXT
         </a>
         <a
           href="#"
-          className="flex items-center gap-1 text-gray-900 text-2xl hover:text-customLightBlue"
+          className="flex items-center gap-1 text-gray-900 text-xl md:text-2xl hover:text-customLightBlue"
         >
           <MdLanguage /> Espanol
         </a>
       </header>
-      <div className="w-full max-w-3xl p-8 space-y-8 bg-white mt-[8rem]">
+      <div className="w-full max-w-3xl p-8 space-y-8 bg-white mt-[8rem] md:mt-[10rem]">
         <form className="space-y-6" onSubmit={handleLogin}>
           <div>
             <h1 className="text-3xl md:text-5xl font-extrabold">LOG IN TO YOUR ACCOUNT</h1>
@@ -67,12 +98,13 @@ const Login: React.FC = () => {
                   ? "bg-customBlue hover:bg-customLightBlue cursor-pointer"
                   : "bg-gray-400 "
               }`}
-              disabled={!validateEmail(email)}
+              disabled={!validateEmail(email) || loading}
             >
-              Continue
+              {loading ? "Loading..." : "Continue"}
             </button>
           </div>
         </form>
+        {apiError && <p className="mt-2 text-sm text-red-600">{apiError}</p>}
         <div className="relative my-6">
           <div className="absolute inset-0 flex items-center">
             <div className="w-full border-t border-gray-300" />
@@ -98,8 +130,8 @@ const Login: React.FC = () => {
         />
       </div>
       
-      <footer className="w-full md:flex items-center md:justify-between px-24 py-4 text-xl bg-[#231f20] text-white">
-        <div className="md:flex items-center gap-10 justify-between">
+      <footer className="w-full md:flex items-center md:justify-between px-8 md:px-24 py-4 text-base md:text-xl bg-[#231f20] text-white">
+        <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-10 justify-between">
           <a
             href="#"
             className="flex items-center gap-1 text-white hover:text-customLightBlue"
@@ -109,7 +141,7 @@ const Login: React.FC = () => {
           <a href="#" className="hover:text-customLightBlue">Terms of Use</a>
           <a href="#" className="hover:text-customLightBlue">Privacy Policy</a>
         </div>
-        <div>
+        <div className="mt-4 md:mt-0">
           <p>© 2024 Next Insurance Inc.</p>
         </div>
       </footer>
