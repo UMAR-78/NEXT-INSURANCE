@@ -149,7 +149,7 @@ const Login: React.FC = () => {
                 htmlFor="password"
                 className="block text-lg font-medium text-gray-700 mt-4"
               >
-                Password for your NEXT account
+                Password for your  account
               </label>
               <input
                 id="password"
