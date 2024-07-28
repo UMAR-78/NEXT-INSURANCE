@@ -1,9 +1,9 @@
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import React, { createContext, useContext, useState, ReactNode, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 interface AuthContextProps {
   isAuthenticated: boolean;
-  login: (email: string, password: string) => Promise<void>;
+  login: (email: string) => Promise<void>;
   logout: () => void;
   user: any;
 }
@@ -11,26 +11,25 @@ interface AuthContextProps {
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState<any>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(!!localStorage.getItem('isAuthenticated'));
+  const [user, setUser] = useState<any>(JSON.parse(localStorage.getItem('user') || 'null'));
   const navigate = useNavigate();
 
-  const login = async (email: string, password: string) => {
-    // Replace with actual API call
-    try {
-      const response = await verifyPassword(email, password);
-      if (response.success) {
-        setIsAuthenticated(true);
-        setUser({ email });
-        navigate("/profile");
-      } else {
-        throw new Error("Invalid login credentials");
-      }
-    } catch (error) {
-      console.error("Login failed:", error);
-      setIsAuthenticated(false);
-      setUser(null);
+  useEffect(() => {
+    if (isAuthenticated && user) {
+      localStorage.setItem('isAuthenticated', 'true');
+      localStorage.setItem('user', JSON.stringify(user));
+    } else {
+      localStorage.removeItem('isAuthenticated');
+      localStorage.removeItem('user');
     }
+  }, [isAuthenticated, user]);
+
+  const login = async (email: string) => {
+    // Placeholder for login logic; actual API call should be made in Login component
+    setIsAuthenticated(true);
+    setUser({ email });
+    navigate("/profile");
   };
 
   const logout = () => {
@@ -50,13 +49,4 @@ export const useAuth = () => {
     throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
-};
-
-// Mock API function to verify password
-const verifyPassword = async (email: string, password: string) => {
-  return new Promise<{ success: boolean }>((resolve) => {
-    setTimeout(() => {
-      resolve({ success: true }); // Replace with actual API response handling
-    }, 1000);
-  });
 };

@@ -50,7 +50,12 @@ const Login: React.FC = () => {
 
       // Call login function from AuthContext
       try {
-        await login(email, password);
+        const response = await verifyPassword(email, password);
+        if (response.success) {
+          await login(email);
+        } else {
+          setApiError("Invalid login credentials. Please try again.");
+        }
       } catch (err) {
         setApiError("Invalid login credentials. Please try again.");
       } finally {
@@ -82,6 +87,17 @@ const Login: React.FC = () => {
 
   // Mock API function to check email
   const checkEmail = async (email: string) => {
+    console.log(`Checking ${email}`);
+    return new Promise<{ success: boolean }>((resolve) => {
+      setTimeout(() => {
+        resolve({ success: true }); // Replace with actual API response handling
+      }, 1000);
+    });
+  };
+
+  // Mock API function to verify password
+  const verifyPassword = async (email: string, password: string) => {
+    console.log("Verifying email and password", email, password); // Ensure email and password are used
     return new Promise<{ success: boolean }>((resolve) => {
       setTimeout(() => {
         resolve({ success: true }); // Replace with actual API response handling
@@ -149,7 +165,7 @@ const Login: React.FC = () => {
                 htmlFor="password"
                 className="block text-lg font-medium text-gray-700 mt-4"
               >
-                Password for your  account
+                Password for your NEXT account
               </label>
               <input
                 id="password"
