@@ -3,8 +3,10 @@ import { Link } from "react-router-dom";
 import { MdLanguage } from "react-icons/md";
 import { IoSearchOutline } from "react-icons/io5";
 import { FiMenu } from "react-icons/fi";
+import { useAuth } from "../context/AuthContext";
 
 const Navbar: React.FC = () => {
+  const { isAuthenticated, logout } = useAuth();
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const timerRef = useRef<number | null>(null);
 
@@ -19,6 +21,10 @@ const Navbar: React.FC = () => {
     timerRef.current = window.setTimeout(() => {
       setIsDropdownVisible(false);
     }, 100); // Adjust the delay as needed
+  };
+
+  const handleLogout = () => {
+    logout();
   };
 
   return (
@@ -69,12 +75,21 @@ const Navbar: React.FC = () => {
           <a href="#" className="flex items-center gap-1 text-gray-900 text-xl">
             <MdLanguage /> ES
           </a>
-          <a
-            href="/login"
-            className="text-gray-700 border border-gray-900 rounded-full px-4 py-1 transition duration-300 hover:bg-black hover:text-white"
-          >
-            Login
-          </a>
+          {isAuthenticated ? (
+            <button
+              onClick={handleLogout}
+              className="text-gray-700 border border-gray-900 rounded-full px-4 py-1 transition duration-300 hover:bg-black hover:text-white"
+            >
+              Logout
+            </button>
+          ) : (
+            <Link
+              to="/login"
+              className="text-gray-700 border border-gray-900 rounded-full px-4 py-1 transition duration-300 hover:bg-black hover:text-white"
+            >
+              Login
+            </Link>
+          )}
           <a
             href="#"
             className="bg-customBlue transition-all text-white rounded-full px-4 py-1 hover:bg-customLightBlue"
