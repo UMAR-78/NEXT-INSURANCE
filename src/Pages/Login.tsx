@@ -87,6 +87,7 @@ const Login: React.FC = () => {
 
   // Mock API function to check email
   const checkEmail = async (email: string) => {
+    console.log(email)
     return new Promise<{ success: boolean }>((resolve) => {
       setTimeout(() => {
         resolve({ success: true }); // Replace with actual API response handling
