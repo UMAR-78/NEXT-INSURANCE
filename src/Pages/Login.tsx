@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { MdLanguage } from "react-icons/md";
 import { useAuth } from "../context/AuthContext";
-import { useNavigate } from "react-router-dom";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -12,7 +11,6 @@ const Login: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [step, setStep] = useState(1);
   const { login } = useAuth();
-  const navigate = useNavigate();
 
   const handleEmailSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,6 +23,7 @@ const Login: React.FC = () => {
       setLoading(true);
       setApiError("");
 
+      // Call backend API to check email
       try {
         const response = await checkEmail(email);
         if (response.success) {
@@ -49,11 +48,11 @@ const Login: React.FC = () => {
       setLoading(true);
       setApiError("");
 
+      // Call login function from AuthContext
       try {
         const response = await verifyPassword(email, password);
         if (response.success) {
           await login(email);
-          navigate("/profile");
         } else {
           setApiError("Invalid login credentials. Please try again.");
         }
@@ -86,55 +85,29 @@ const Login: React.FC = () => {
     setPassword(e.target.value);
   };
 
+  // Mock API function to check email
   const checkEmail = async (email: string) => {
-    try {
-      const response = await fetch(
-        "http://api.aws-cloudevents.com/api/users/validateUser/",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "X-Api-Key":
-              "dc6ebb8cf02a24945bd9e15100c16d27e12fbb41ad40cc84aee883f5000b461f",
-          },
-          body: JSON.stringify({ email }),
-        }
-      );
-      return response.json();
-    } catch (error) {
-      console.error("Error checking email:", error);
-      throw new Error("Error checking email");
-    }
+    return new Promise<{ success: boolean }>((resolve) => {
+      setTimeout(() => {
+        resolve({ success: true }); // Replace with actual API response handling
+      }, 1000);
+    });
   };
 
+  // Mock API function to verify password
   const verifyPassword = async (email: string, password: string) => {
-    try {
-      const response = await fetch(
-        "http://api.aws-cloudevents.com/api/users/validatePwd/",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "X-Api-Key":
-              "dc6ebb8cf02a24945bd9e15100c16d27e12fbb41ad40cc84aee883f5000b461f",
-          },
-          body: JSON.stringify({ userEmail: email, userPwd: password }),
-        }
-      );
-      return response.json();
-    } catch (error) {
-      console.error("Error verifying password:", error);
-      throw new Error("Error verifying password");
-    }
+    console.log("Verifying email and password", email, password); // Ensure email and password are used
+    return new Promise<{ success: boolean }>((resolve) => {
+      setTimeout(() => {
+        resolve({ success: true }); // Replace with actual API response handling
+      }, 1000);
+    });
   };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
       <header className="flex w-full fixed top-0 left-0 right-0 px-4 md:px-10 py-5 md:py-7 items-center justify-between mb-8 border-b-2 z-50 bg-white">
-        <a
-          href="/"
-          className="text-4xl md:text-6xl font-extrabold text-customLightBlue"
-        >
+        <a href="/" className="text-4xl md:text-6xl font-extrabold text-customLightBlue">
           NEXT
         </a>
         <a
@@ -148,9 +121,7 @@ const Login: React.FC = () => {
         {step === 1 ? (
           <form className="space-y-6" onSubmit={handleEmailSubmit}>
             <div>
-              <h1 className="text-3xl md:text-5xl font-extrabold">
-                LOG IN TO YOUR ACCOUNT
-              </h1>
+              <h1 className="text-3xl md:text-5xl font-extrabold">LOG IN TO YOUR ACCOUNT</h1>
 
               <label
                 htmlFor="email"
@@ -187,9 +158,7 @@ const Login: React.FC = () => {
         ) : (
           <form className="space-y-6" onSubmit={handlePasswordSubmit}>
             <div>
-              <h1 className="text-3xl md:text-5xl font-extrabold">
-                ENTER YOUR PASSWORD
-              </h1>
+              <h1 className="text-3xl md:text-5xl font-extrabold">ENTER YOUR PASSWORD</h1>
 
               <label
                 htmlFor="password"
@@ -235,14 +204,17 @@ const Login: React.FC = () => {
             Log in with Google
           </button>
         </div>
+        {/*  */}
       </div>
+
       <div className="relative w-full h-12 md:h-20 bg-customLightBlue mt-[5rem]">
         <img
           src="./character-multiple-cobs.svg"
           alt="Decorative"
           className="absolute h-[7rem] md:h-[10rem] bottom-4 left-1/2 transform -translate-x-1/2"
         />
-      </div>{" "}
+      </div>
+
       <footer className="w-full md:flex items-center md:justify-between px-8 md:px-24 py-4 text-base md:text-xl bg-[#231f20] text-white">
         <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-10 justify-between">
           <a
@@ -251,12 +223,8 @@ const Login: React.FC = () => {
           >
             <MdLanguage /> Espanol
           </a>
-          <a href="#" className="hover:text-customLightBlue">
-            Terms of Use
-          </a>
-          <a href="#" className="hover:text-customLightBlue">
-            Privacy Policy
-          </a>
+          <a href="#" className="hover:text-customLightBlue">Terms of Use</a>
+          <a href="#" className="hover:text-customLightBlue">Privacy Policy</a>
         </div>
         <div className="mt-4 md:mt-0">
           <p>© 2024 Next Insurance Inc.</p>
