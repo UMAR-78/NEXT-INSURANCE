@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { MdLanguage } from "react-icons/md";
 import { IoSearchOutline } from "react-icons/io5";
-import { FiMenu} from "react-icons/fi";
+import { FiMenu } from "react-icons/fi";
 import { useAuth } from "../context/AuthContext";
 import { FaUserCircle } from "react-icons/fa";
 
@@ -26,8 +26,17 @@ const Navbar: React.FC = () => {
     }, 100); // Adjust the delay as needed
   };
 
-  const handleProfileClick = () => {
-    setIsProfileDropdownVisible(!isProfileDropdownVisible);
+  const handleProfileMouseEnter = () => {
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+    }
+    setIsProfileDropdownVisible(true);
+  };
+
+  const handleProfileMouseLeave = () => {
+    timerRef.current = window.setTimeout(() => {
+      setIsProfileDropdownVisible(false);
+    }, 100); // Adjust the delay as needed
   };
 
   const handleLogout = () => {
@@ -87,14 +96,13 @@ const Navbar: React.FC = () => {
             <MdLanguage /> ES
           </a>
           {isAuthenticated ? (
-            <div className="relative">
-              
-              <button
-                onClick={handleProfileClick}
-                className="text-black flex"
-              >
+            <div
+              className="relative"
+              onMouseEnter={handleProfileMouseEnter}
+              onMouseLeave={handleProfileMouseLeave}
+            >
+              <button className="text-black flex">
                 <FaUserCircle className="text-2xl" />
-              
               </button>
               {isProfileDropdownVisible && (
                 <div className="absolute top-full right-0 mt-2 w-48 bg-white border border-black shadow-lg rounded-lg">
@@ -168,13 +176,14 @@ const Navbar: React.FC = () => {
             {isAuthenticated ? (
               <>
                 <button
-                  onClick={handleProfileClick}
                   className="text-black flex"
+                  onMouseEnter={handleProfileMouseEnter}
+                  onMouseLeave={handleProfileMouseLeave}
                 >
                   <FaUserCircle className="text-3xl" />
                 </button>
                 {isProfileDropdownVisible && (
-                  <div className="absolute top-[20rem] right-1   mt-2 w-48 bg-white border border-black shadow-lg rounded-lg">
+                  <div className="absolute top-[20rem] right-1 mt-2 w-48 bg-white border border-black shadow-lg rounded-lg">
                     <Link
                       to="/profile" // Change this to the URL of the profile page
                       className="block px-4 py-2 text-gray-700 hover:text-customBlue"
@@ -198,7 +207,6 @@ const Navbar: React.FC = () => {
                 Login
               </Link>
             )}
-            
           </div>
         </div>
       )}
