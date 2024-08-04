@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 const AutoServicesSection: React.FC = () => {
   return (
     <>
+    <div className="max-w-screen-4xl mx-auto p-4 md:px-6 mt-16 md:mt-32">
       <section className="min-h-screen bg-[#c2ffab] mt-20 flex flex-col md:gap-16 md:flex-row items-center justify-center py-16 px-8 md:px-16">
         <div className="md:w-[67%] flex justify-center mb-8 md:mb-0">
           <img
@@ -126,6 +127,7 @@ const AutoServicesSection: React.FC = () => {
           />
         </div>
       </section>
+      </div>
     </>
   );
 };

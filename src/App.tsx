@@ -14,6 +14,7 @@ import Profile from "./Pages/Profile";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./Components/ProtectedRoutes";
 import AutoServicesSection from "./Components/AutoServicesSection";
+import WhyNext from "./Components/WhyNext";
 
 const App: React.FC = () => {
   return (
@@ -37,6 +38,8 @@ const Main: React.FC = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/business-insurance" element={<BusinessInsurance />} />
         <Route path="/auto-services" element={<AutoServicesSection />} />
+        <Route path="/why-next" element={<WhyNext />} />
+
         <Route
           path="/profile"
           element={
