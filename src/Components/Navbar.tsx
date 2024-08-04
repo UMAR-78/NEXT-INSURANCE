@@ -8,21 +8,21 @@ import { FaUserCircle } from "react-icons/fa";
 
 const Navbar: React.FC = () => {
   const { isAuthenticated, logout } = useAuth();
-  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [isProfileDropdownVisible, setIsProfileDropdownVisible] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const timerRef = useRef<number | null>(null);
 
-  const handleMouseEnter = () => {
+  const handleMouseEnter = (menu: string) => {
     if (timerRef.current) {
       clearTimeout(timerRef.current);
     }
-    setIsDropdownVisible(true);
+    setActiveDropdown(menu);
   };
 
   const handleMouseLeave = () => {
     timerRef.current = window.setTimeout(() => {
-      setIsDropdownVisible(false);
+      setActiveDropdown(null);
     }, 100); // Adjust the delay as needed
   };
 
@@ -50,26 +50,26 @@ const Navbar: React.FC = () => {
   return (
     <nav className="fixed top-0 left-0 right-0 z-10 bg-white">
       <div className="max-w-screen-4xl mx-auto flex justify-between items-center py-4 px-6 md:px-6">
-        <Link to='/' className="text-customLightBlue font-bold text-2xl md:text-4xl">
+        <Link to="/" className="text-customLightBlue font-bold text-2xl md:text-4xl">
           NEXT
         </Link>
         <div className="hidden md:flex items-center justify-center space-x-7">
           <div
             className="relative"
-            onMouseEnter={handleMouseEnter}
+            onMouseEnter={() => handleMouseEnter('coverage')}
             onMouseLeave={handleMouseLeave}
           >
             <a href="#" className="text-gray-900 text-xl hover:text-customBlue">
               Coverage
             </a>
-            {isDropdownVisible && (
+            {activeDropdown === 'coverage' && (
               <div
                 className="absolute top-full left-0 mt-6 w-48 bg-white border border-black shadow-lg rounded-lg"
-                onMouseEnter={handleMouseEnter}
+                onMouseEnter={() => handleMouseEnter('coverage')}
                 onMouseLeave={handleMouseLeave}
               >
                 <Link
-                  to="/business-insurance" // Change this to the URL of the new page
+                  to="/business-insurance"
                   className="block px-4 py-2 text-gray-700 hover:text-customBlue"
                 >
                   Business Insurance
@@ -77,9 +77,29 @@ const Navbar: React.FC = () => {
               </div>
             )}
           </div>
-          <a href="#" className="text-gray-900 text-xl hover:text-customBlue">
-            Who We Insure
-          </a>
+          <div
+            className="relative"
+            onMouseEnter={() => handleMouseEnter('insure')}
+            onMouseLeave={handleMouseLeave}
+          >
+            <a href="#" className="text-gray-900 text-xl hover:text-customBlue">
+              Who We Insure
+            </a>
+            {activeDropdown === 'insure' && (
+              <div
+                className="absolute top-full left-0 mt-6 w-48 bg-white border border-black shadow-lg rounded-lg"
+                onMouseEnter={() => handleMouseEnter('insure')}
+                onMouseLeave={handleMouseLeave}
+              >
+                <Link
+                  to="/auto-services"
+                  className="block px-4 py-2 text-gray-700 hover:text-customBlue"
+                >
+                  Auto Services
+                </Link>
+              </div>
+            )}
+          </div>
           <a href="#" className="text-gray-900 text-xl hover:text-customBlue">
             Certificate
           </a>
@@ -89,9 +109,29 @@ const Navbar: React.FC = () => {
           <a href="#" className="text-gray-900 text-xl hover:text-customBlue">
             Support
           </a>
-          <a href="#" className="text-gray-900 text-xl hover:text-customBlue">
-            About Us
-          </a>
+          <div
+            className="relative"
+            onMouseEnter={() => handleMouseEnter('about')}
+            onMouseLeave={handleMouseLeave}
+          >
+            <a href="#" className="text-gray-900 text-xl hover:text-customBlue">
+              About Us
+            </a>
+            {activeDropdown === 'about' && (
+              <div
+                className="absolute top-full left-0 mt-6 w-48 bg-white border border-black shadow-lg rounded-lg"
+                onMouseEnter={() => handleMouseEnter('about')}
+                onMouseLeave={handleMouseLeave}
+              >
+                <Link
+                  to="/why-next"
+                  className="block px-4 py-2 text-gray-700 hover:text-customBlue"
+                >
+                  Why Next?
+                </Link>
+              </div>
+            )}
+          </div>
           <a href="#" className="flex items-center gap-1 text-gray-900 text-xl">
             <MdLanguage /> ES
           </a>
@@ -107,7 +147,7 @@ const Navbar: React.FC = () => {
               {isProfileDropdownVisible && (
                 <div className="absolute top-full right-0 mt-2 w-48 bg-white border border-black shadow-lg rounded-lg">
                   <Link
-                    to="/profile" // Change this to the URL of the profile page
+                    to="/profile"
                     className="block px-4 py-2 text-gray-700 hover:text-customBlue"
                   >
                     Profile
@@ -185,7 +225,7 @@ const Navbar: React.FC = () => {
                 {isProfileDropdownVisible && (
                   <div className="absolute top-[20rem] right-1 mt-2 w-48 bg-white border border-black shadow-lg rounded-lg">
                     <Link
-                      to="/profile" // Change this to the URL of the profile page
+                      to="/profile"
                       className="block px-4 py-2 text-gray-700 hover:text-customBlue"
                     >
                       Profile
