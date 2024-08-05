@@ -20,10 +20,12 @@ const Navbar: React.FC = () => {
     setActiveDropdown(menu);
   };
 
-  const handleMouseLeave = () => {
+  const handleMouseLeave = (menu: string) => {
     timerRef.current = window.setTimeout(() => {
-      setActiveDropdown(null);
-    }, 100); // Adjust the delay as needed
+      if (activeDropdown === menu) {
+        setActiveDropdown(null);
+      }
+    }, 300); // Adjust the delay as needed
   };
 
   const handleProfileMouseEnter = () => {
@@ -36,7 +38,7 @@ const Navbar: React.FC = () => {
   const handleProfileMouseLeave = () => {
     timerRef.current = window.setTimeout(() => {
       setIsProfileDropdownVisible(false);
-    }, 100); // Adjust the delay as needed
+    }, 500); // Adjust the delay as needed
   };
 
   const handleLogout = () => {
@@ -57,7 +59,7 @@ const Navbar: React.FC = () => {
           <div
             className="relative"
             onMouseEnter={() => handleMouseEnter('coverage')}
-            onMouseLeave={handleMouseLeave}
+            onMouseLeave={() => handleMouseLeave('coverage')}
           >
             <a href="#" className="text-gray-900 text-xl hover:text-customBlue">
               Coverage
@@ -66,7 +68,7 @@ const Navbar: React.FC = () => {
               <div
                 className="absolute top-full left-0 mt-6 w-48 bg-white border border-black shadow-lg rounded-lg"
                 onMouseEnter={() => handleMouseEnter('coverage')}
-                onMouseLeave={handleMouseLeave}
+                onMouseLeave={() => handleMouseLeave('coverage')}
               >
                 <Link
                   to="/business-insurance"
@@ -80,7 +82,7 @@ const Navbar: React.FC = () => {
           <div
             className="relative"
             onMouseEnter={() => handleMouseEnter('insure')}
-            onMouseLeave={handleMouseLeave}
+            onMouseLeave={() => handleMouseLeave('insure')}
           >
             <a href="#" className="text-gray-900 text-xl hover:text-customBlue">
               Who We Insure
@@ -89,7 +91,7 @@ const Navbar: React.FC = () => {
               <div
                 className="absolute top-full left-0 mt-6 w-48 bg-white border border-black shadow-lg rounded-lg"
                 onMouseEnter={() => handleMouseEnter('insure')}
-                onMouseLeave={handleMouseLeave}
+                onMouseLeave={() => handleMouseLeave('insure')}
               >
                 <Link
                   to="/auto-services"
@@ -112,7 +114,7 @@ const Navbar: React.FC = () => {
           <div
             className="relative"
             onMouseEnter={() => handleMouseEnter('about')}
-            onMouseLeave={handleMouseLeave}
+            onMouseLeave={() => handleMouseLeave('about')}
           >
             <a href="#" className="text-gray-900 text-xl hover:text-customBlue">
               About Us
@@ -121,7 +123,7 @@ const Navbar: React.FC = () => {
               <div
                 className="absolute top-full left-0 mt-6 w-48 bg-white border border-black shadow-lg rounded-lg"
                 onMouseEnter={() => handleMouseEnter('about')}
-                onMouseLeave={handleMouseLeave}
+                onMouseLeave={() => handleMouseLeave('about')}
               >
                 <Link
                   to="/why-next"
