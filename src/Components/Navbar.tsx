@@ -132,7 +132,7 @@ const Navbar: React.FC = () => {
               </button>
               {activeDropdown === 'profile' && (
                 <div
-                  className="absolute top-full right-0 mt-2 w-48 bg-white border border-black shadow-lg rounded-lg"
+                  className="absolute top-full right-0 mt-6 w-48 bg-white border border-black shadow-lg rounded-lg"
                   onMouseEnter={() => handleMouseEnter('profile')}
                   onMouseLeave={handleMouseLeave}
                 >
