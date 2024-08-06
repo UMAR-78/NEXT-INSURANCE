@@ -9,7 +9,6 @@ import { FaUserCircle } from "react-icons/fa";
 const Navbar: React.FC = () => {
   const { isAuthenticated, logout } = useAuth();
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
-  const [isProfileDropdownVisible, setIsProfileDropdownVisible] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const timerRef = useRef<number | null>(null);
 
@@ -20,25 +19,10 @@ const Navbar: React.FC = () => {
     setActiveDropdown(menu);
   };
 
-  const handleMouseLeave = (menu: string) => {
+  const handleMouseLeave = () => {
     timerRef.current = window.setTimeout(() => {
-      if (activeDropdown === menu) {
-        setActiveDropdown(null);
-      }
-    }, 300); // Adjust the delay as needed
-  };
-
-  const handleProfileMouseEnter = () => {
-    if (timerRef.current) {
-      clearTimeout(timerRef.current);
-    }
-    setIsProfileDropdownVisible(true);
-  };
-
-  const handleProfileMouseLeave = () => {
-    timerRef.current = window.setTimeout(() => {
-      setIsProfileDropdownVisible(false);
-    }, 500); // Adjust the delay as needed
+      setActiveDropdown(null);
+    }, 400); // Adjust the delay as needed
   };
 
   const handleLogout = () => {
@@ -59,7 +43,7 @@ const Navbar: React.FC = () => {
           <div
             className="relative"
             onMouseEnter={() => handleMouseEnter('coverage')}
-            onMouseLeave={() => handleMouseLeave('coverage')}
+            onMouseLeave={handleMouseLeave}
           >
             <a href="#" className="text-gray-900 text-xl hover:text-customBlue">
               Coverage
@@ -68,7 +52,7 @@ const Navbar: React.FC = () => {
               <div
                 className="absolute top-full left-0 mt-6 w-48 bg-white border border-black shadow-lg rounded-lg"
                 onMouseEnter={() => handleMouseEnter('coverage')}
-                onMouseLeave={() => handleMouseLeave('coverage')}
+                onMouseLeave={handleMouseLeave}
               >
                 <Link
                   to="/business-insurance"
@@ -82,7 +66,7 @@ const Navbar: React.FC = () => {
           <div
             className="relative"
             onMouseEnter={() => handleMouseEnter('insure')}
-            onMouseLeave={() => handleMouseLeave('insure')}
+            onMouseLeave={handleMouseLeave}
           >
             <a href="#" className="text-gray-900 text-xl hover:text-customBlue">
               Who We Insure
@@ -91,7 +75,7 @@ const Navbar: React.FC = () => {
               <div
                 className="absolute top-full left-0 mt-6 w-48 bg-white border border-black shadow-lg rounded-lg"
                 onMouseEnter={() => handleMouseEnter('insure')}
-                onMouseLeave={() => handleMouseLeave('insure')}
+                onMouseLeave={handleMouseLeave}
               >
                 <Link
                   to="/auto-services"
@@ -114,7 +98,7 @@ const Navbar: React.FC = () => {
           <div
             className="relative"
             onMouseEnter={() => handleMouseEnter('about')}
-            onMouseLeave={() => handleMouseLeave('about')}
+            onMouseLeave={handleMouseLeave}
           >
             <a href="#" className="text-gray-900 text-xl hover:text-customBlue">
               About Us
@@ -123,7 +107,7 @@ const Navbar: React.FC = () => {
               <div
                 className="absolute top-full left-0 mt-6 w-48 bg-white border border-black shadow-lg rounded-lg"
                 onMouseEnter={() => handleMouseEnter('about')}
-                onMouseLeave={() => handleMouseLeave('about')}
+                onMouseLeave={handleMouseLeave}
               >
                 <Link
                   to="/why-next"
@@ -140,14 +124,18 @@ const Navbar: React.FC = () => {
           {isAuthenticated ? (
             <div
               className="relative"
-              onMouseEnter={handleProfileMouseEnter}
-              onMouseLeave={handleProfileMouseLeave}
+              onMouseEnter={() => handleMouseEnter('profile')}
+              onMouseLeave={handleMouseLeave}
             >
               <button className="text-black flex">
                 <FaUserCircle className="text-2xl" />
               </button>
-              {isProfileDropdownVisible && (
-                <div className="absolute top-full right-0 mt-2 w-48 bg-white border border-black shadow-lg rounded-lg">
+              {activeDropdown === 'profile' && (
+                <div
+                  className="absolute top-full right-0 mt-2 w-48 bg-white border border-black shadow-lg rounded-lg"
+                  onMouseEnter={() => handleMouseEnter('profile')}
+                  onMouseLeave={handleMouseLeave}
+                >
                   <Link
                     to="/profile"
                     className="block px-4 py-2 text-gray-700 hover:text-customBlue"
@@ -219,13 +207,17 @@ const Navbar: React.FC = () => {
               <>
                 <button
                   className="text-black flex"
-                  onMouseEnter={handleProfileMouseEnter}
-                  onMouseLeave={handleProfileMouseLeave}
+                  onMouseEnter={() => handleMouseEnter('profile')}
+                  onMouseLeave={handleMouseLeave}
                 >
                   <FaUserCircle className="text-3xl" />
                 </button>
-                {isProfileDropdownVisible && (
-                  <div className="absolute top-[20rem] right-1 mt-2 w-48 bg-white border border-black shadow-lg rounded-lg">
+                {activeDropdown === 'profile' && (
+                  <div
+                    className="absolute top-[20rem] right-1 mt-2 w-48 bg-white border border-black shadow-lg rounded-lg"
+                    onMouseEnter={() => handleMouseEnter('profile')}
+                    onMouseLeave={handleMouseLeave}
+                  >
                     <Link
                       to="/profile"
                       className="block px-4 py-2 text-gray-700 hover:text-customBlue"
