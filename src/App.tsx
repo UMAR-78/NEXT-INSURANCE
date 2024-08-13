@@ -15,6 +15,7 @@ import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./Components/ProtectedRoutes";
 import AutoServicesSection from "./Components/AutoServicesSection";
 import WhyNext from "./Components/WhyNext";
+import SignUp from "./Pages/SignUp";
 
 const App: React.FC = () => {
   return (
@@ -28,7 +29,8 @@ const App: React.FC = () => {
 
 const Main: React.FC = () => {
   const location = useLocation();
-  const hideHeaderFooter = location.pathname === "/login";
+  const hideHeaderFooter = location.pathname === "/login" || location.pathname === "/signup";
+
 
   return (
     <div className="">
@@ -36,6 +38,7 @@ const Main: React.FC = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
         <Route path="/business-insurance" element={<BusinessInsurance />} />
         <Route path="/auto-services" element={<AutoServicesSection />} />
         <Route path="/why-next" element={<WhyNext />} />

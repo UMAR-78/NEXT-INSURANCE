@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { MdLanguage } from "react-icons/md";
 import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState("");
@@ -11,6 +12,7 @@ const Login: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [step, setStep] = useState(1);
   const { login } = useAuth();
+  const navigate = useNavigate();
 
   const handleEmailSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,13 +25,15 @@ const Login: React.FC = () => {
       setLoading(true);
       setApiError("");
 
-      // Call backend API to check email
       try {
         const response = await checkEmail(email);
         if (response.success) {
           setStep(2);
         } else {
-          setApiError("Email not found. Please try again.");
+          setApiError("Email not found. Redirecting to signup...");
+          setTimeout(() => {
+            navigate("/signup"); // Redirect to signup page
+          }, 2000);
         }
       } catch (err) {
         setApiError("An error occurred. Please try again.");
@@ -48,11 +52,11 @@ const Login: React.FC = () => {
       setLoading(true);
       setApiError("");
 
-      // Call login function from AuthContext
       try {
         const response = await verifyPassword(email, password);
         if (response.success) {
           await login(email);
+          navigate("/profile"); // Redirect to profile page
         } else {
           setApiError("Invalid login credentials. Please try again.");
         }
@@ -70,40 +74,32 @@ const Login: React.FC = () => {
   };
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setEmail(value);
-    if (!value) {
-      setError("This field is required");
-    } else if (!validateEmail(value)) {
-      setError("Please enter a valid email address");
-    } else {
-      setError("");
-    }
+    setEmail(e.target.value);
   };
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
   };
 
-  // Mock API function to check email
   const checkEmail = async (email: string) => {
-    console.log(email)
     return new Promise<{ success: boolean }>((resolve) => {
-      setTimeout(() => {
-        resolve({ success: true }); // Replace with actual API response handling
-      }, 1000);
+        setTimeout(() => {
+            const users = JSON.parse(localStorage.getItem("users") || "[]");
+            const userExists = users.some((user: any) => user.email === email);
+            resolve({ success: userExists });
+        }, 500);
     });
-  };
+};
 
-  // Mock API function to verify password
-  const verifyPassword = async (email: string, password: string) => {
-    console.log("Verifying email and password", email, password); // Ensure email and password are used
+const verifyPassword = async (email: string, password: string) => {
     return new Promise<{ success: boolean }>((resolve) => {
-      setTimeout(() => {
-        resolve({ success: true }); // Replace with actual API response handling
-      }, 1000);
+        setTimeout(() => {
+            const users = JSON.parse(localStorage.getItem("users") || "[]");
+            const user = users.find((user: any) => user.email === email);
+            resolve({ success: user?.password === password });
+        }, 500);
     });
-  };
+};
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
@@ -123,7 +119,6 @@ const Login: React.FC = () => {
           <form className="space-y-6" onSubmit={handleEmailSubmit}>
             <div>
               <h1 className="text-3xl md:text-5xl font-extrabold">LOG IN TO YOUR ACCOUNT</h1>
-
               <label
                 htmlFor="email"
                 className="block text-lg font-medium text-gray-700 mt-4"
@@ -160,7 +155,6 @@ const Login: React.FC = () => {
           <form className="space-y-6" onSubmit={handlePasswordSubmit}>
             <div>
               <h1 className="text-3xl md:text-5xl font-extrabold">ENTER YOUR PASSWORD</h1>
-
               <label
                 htmlFor="password"
                 className="block text-lg font-medium text-gray-700 mt-4"
@@ -205,9 +199,7 @@ const Login: React.FC = () => {
             Log in with Google
           </button>
         </div>
-        {/*  */}
       </div>
-
       <div className="relative w-full h-12 md:h-20 bg-customLightBlue mt-[5rem]">
         <img
           src="./character-multiple-cobs.svg"
@@ -215,9 +207,8 @@ const Login: React.FC = () => {
           className="absolute h-[7rem] md:h-[10rem] bottom-4 left-1/2 transform -translate-x-1/2"
         />
       </div>
-
       <footer className="w-full md:flex items-center md:justify-between px-8 md:px-24 py-4 text-base md:text-xl bg-[#231f20] text-white">
-        <div className="flex flex-col md:flex-row md:items-center gap-4 md:gap-10 justify-between">
+        <div className="flex flex-col md:flex-row items-center gap-4 md:gap-10 justify-between">
           <a
             href="#"
             className="flex items-center gap-1 text-white hover:text-customLightBlue"
@@ -227,7 +218,7 @@ const Login: React.FC = () => {
           <a href="#" className="hover:text-customLightBlue">Terms of Use</a>
           <a href="#" className="hover:text-customLightBlue">Privacy Policy</a>
         </div>
-        <div className="mt-4 md:mt-0">
+        <div className="mt-4 md:mt-0 text-center">
           <p>© 2024 Next Insurance Inc.</p>
         </div>
       </footer>
