@@ -32,7 +32,7 @@ const Login: React.FC = () => {
         } else {
           setApiError("Email not found. Redirecting to signup...");
           setTimeout(() => {
-            navigate("/signup"); // Redirect to signup page
+            navigate("/signup", { state: { email } }); // Pass email to signup page
           }, 2000);
         }
       } catch (err) {
@@ -69,10 +69,9 @@ const Login: React.FC = () => {
   };
 
   const validateEmail = (email: string) => {
-  const re = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/;
-  return re.test(String(email).toLowerCase());
-};
-
+    const re = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/;
+    return re.test(String(email).toLowerCase());
+  };
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -84,23 +83,23 @@ const Login: React.FC = () => {
 
   const checkEmail = async (email: string) => {
     return new Promise<{ success: boolean }>((resolve) => {
-        setTimeout(() => {
-            const users = JSON.parse(localStorage.getItem("users") || "[]");
-            const userExists = users.some((user: any) => user.email === email);
-            resolve({ success: userExists });
-        }, 500);
+      setTimeout(() => {
+        const users = JSON.parse(localStorage.getItem("users") || "[]");
+        const userExists = users.some((user: any) => user.email === email);
+        resolve({ success: userExists });
+      }, 500);
     });
-};
+  };
 
-const verifyPassword = async (email: string, password: string) => {
+  const verifyPassword = async (email: string, password: string) => {
     return new Promise<{ success: boolean }>((resolve) => {
-        setTimeout(() => {
-            const users = JSON.parse(localStorage.getItem("users") || "[]");
-            const user = users.find((user: any) => user.email === email);
-            resolve({ success: user?.password === password });
-        }, 500);
+      setTimeout(() => {
+        const users = JSON.parse(localStorage.getItem("users") || "[]");
+        const user = users.find((user: any) => user.email === email);
+        resolve({ success: user?.password === password });
+      }, 500);
     });
-};
+  };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
@@ -144,7 +143,7 @@ const verifyPassword = async (email: string, password: string) => {
                 className={`flex justify-center w-full px-4 py-4 text-base font-medium text-white border border-transparent rounded-full ${
                   validateEmail(email)
                     ? "bg-customBlue hover:bg-customLightBlue cursor-pointer"
-                    : "bg-gray-400 "
+                    : "bg-gray-400"
                 }`}
                 disabled={!validateEmail(email) || loading}
               >

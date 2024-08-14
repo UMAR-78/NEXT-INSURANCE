@@ -1,17 +1,18 @@
 import React, { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { MdLanguage } from "react-icons/md";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const SignUp: React.FC = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
+  const location = useLocation();
+  const email = location.state?.email || ""; // Retrieve email from the location state
 
   const validateEmail = (email: string) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -63,7 +64,7 @@ const SignUp: React.FC = () => {
     } finally {
         setLoading(false);
     }
-};
+  };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
@@ -82,6 +83,9 @@ const SignUp: React.FC = () => {
         <form className="space-y-6" onSubmit={handleSubmit}>
           <div>
             <h1 className="text-3xl md:text-5xl font-extrabold">CREATE YOUR ACCOUNT</h1>
+
+            {/* Display the passed email */}
+            <p className="text-lg font-medium text-gray-700 mt-4">Email: {email}</p>
 
             <label
               htmlFor="firstName"
@@ -116,23 +120,6 @@ const SignUp: React.FC = () => {
             />
 
             <label
-              htmlFor="email"
-              className="block text-lg font-medium text-gray-700 mt-4"
-            >
-              Email
-            </label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              autoComplete="email"
-              required
-              className="block w-full px-3 py-2 mt-1 text-gray-900 bg-white border border-gray-300 rounded-lg shadow-sm sm:text-sm"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-
-            <label
               htmlFor="password"
               className="block text-lg font-medium text-gray-700 mt-4"
             >
@@ -155,11 +142,11 @@ const SignUp: React.FC = () => {
             <button
               type="submit"
               className={`flex justify-center w-full px-4 py-4 text-base font-medium text-white border border-transparent rounded-full ${
-                firstName && lastName && validateEmail(email) && password
+                firstName && lastName && password
                   ? "bg-customBlue hover:bg-customLightBlue cursor-pointer"
                   : "bg-gray-400"
               }`}
-              disabled={!firstName || !lastName || !validateEmail(email) || !password || loading}
+              disabled={!firstName || !lastName || !password || loading}
             >
               {loading ? "Loading..." : "Sign Up"}
             </button>
