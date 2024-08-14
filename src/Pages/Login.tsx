@@ -69,9 +69,10 @@ const Login: React.FC = () => {
   };
 
   const validateEmail = (email: string) => {
-    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return re.test(String(email).toLowerCase());
-  };
+  const re = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/;
+  return re.test(String(email).toLowerCase());
+};
+
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
