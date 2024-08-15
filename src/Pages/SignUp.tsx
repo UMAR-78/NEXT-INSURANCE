@@ -58,7 +58,7 @@ const SignUp: React.FC = () => {
       // Save updated users array to local storage
       localStorage.setItem("users", JSON.stringify(existingUsers));
 
-      // Log in the user and redirect to profile page
+      // Logg in the user and redirect to profile page
       await login(email);
       navigate('/profile');
     } catch (err) {
