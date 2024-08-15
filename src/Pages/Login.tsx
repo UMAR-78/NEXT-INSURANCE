@@ -56,7 +56,6 @@ const Login: React.FC = () => {
         const response = await verifyPassword(email, password);
         if (response.success) {
           await login(email);
-          navigate("/profile"); // Redirect to profile page
         } else {
           setApiError("Invalid login credentials. Please try again.");
         }
@@ -111,7 +110,7 @@ const Login: React.FC = () => {
           href="#"
           className="flex items-center gap-1 text-gray-900 text-xl md:text-2xl hover:text-customLightBlue"
         >
-          <MdLanguage /> Espanol
+          <MdLanguage /> Español
         </a>
       </header>
       <div className="w-full max-w-3xl p-8 space-y-8 bg-white mt-[8rem] md:mt-[10rem]">
@@ -141,15 +140,14 @@ const Login: React.FC = () => {
               <button
                 type="submit"
                 className={`flex justify-center w-full px-4 py-4 text-base font-medium text-white border border-transparent rounded-full ${
-                  validateEmail(email)
-                    ? "bg-customBlue hover:bg-customLightBlue cursor-pointer"
-                    : "bg-gray-400"
+                  email ? "bg-customBlue hover:bg-customLightBlue cursor-pointer" : "bg-gray-400"
                 }`}
-                disabled={!validateEmail(email) || loading}
+                disabled={!email || loading}
               >
                 {loading ? "Loading..." : "Continue"}
               </button>
             </div>
+            {apiError && <p className="mt-2 text-sm text-red-600">{apiError}</p>}
           </form>
         ) : (
           <form className="space-y-6" onSubmit={handlePasswordSubmit}>
@@ -159,7 +157,7 @@ const Login: React.FC = () => {
                 htmlFor="password"
                 className="block text-lg font-medium text-gray-700 mt-4"
               >
-                Password for your NEXT account
+                Password
               </label>
               <input
                 id="password"
@@ -176,15 +174,17 @@ const Login: React.FC = () => {
             <div>
               <button
                 type="submit"
-                className="flex justify-center w-full px-4 py-4 text-base font-medium text-white border border-transparent rounded-full bg-customBlue hover:bg-customLightBlue"
-                disabled={loading}
+                className={`flex justify-center w-full px-4 py-4 text-base font-medium text-white border border-transparent rounded-full ${
+                  password ? "bg-customBlue hover:bg-customLightBlue cursor-pointer" : "bg-gray-400"
+                }`}
+                disabled={!password || loading}
               >
-                {loading ? "Loading..." : "Continue"}
+                {loading ? "Loading..." : "Log In"}
               </button>
             </div>
+            {apiError && <p className="mt-2 text-sm text-red-600">{apiError}</p>}
           </form>
         )}
-        {apiError && <p className="mt-2 text-sm text-red-600">{apiError}</p>}
         <div className="relative my-6">
           <div className="absolute inset-0 flex items-center">
             <div className="w-full border-t border-gray-300" />
@@ -200,20 +200,14 @@ const Login: React.FC = () => {
           </button>
         </div>
       </div>
-      <div className="relative w-full h-12 md:h-20 bg-customLightBlue mt-[5rem]">
-        <img
-          src="./character-multiple-cobs.svg"
-          alt="Decorative"
-          className="absolute h-[7rem] md:h-[10rem] bottom-4 left-1/2 transform -translate-x-1/2"
-        />
-      </div>
+
       <footer className="w-full md:flex items-center md:justify-between px-8 md:px-24 py-4 text-base md:text-xl bg-[#231f20] text-white">
         <div className="flex flex-col md:flex-row items-center gap-4 md:gap-10 justify-between">
           <a
             href="#"
             className="flex items-center gap-1 text-white hover:text-customLightBlue"
           >
-            <MdLanguage /> Espanol
+            <MdLanguage /> Español
           </a>
           <a href="#" className="hover:text-customLightBlue">Terms of Use</a>
           <a href="#" className="hover:text-customLightBlue">Privacy Policy</a>

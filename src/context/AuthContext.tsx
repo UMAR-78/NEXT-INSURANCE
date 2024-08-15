@@ -26,7 +26,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   }, [isAuthenticated, user]);
 
   const login = async (email: string) => {
-    // Placeholder for login logic; actual API call should be made in Login component
     setIsAuthenticated(true);
     setUser({ email });
     navigate("/profile");

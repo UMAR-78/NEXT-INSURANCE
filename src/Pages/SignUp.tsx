@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { MdLanguage } from "react-icons/md";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const SignUp: React.FC = () => {
   const [firstName, setFirstName] = useState("");
@@ -13,6 +14,7 @@ const SignUp: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const email = location.state?.email || ""; // Retrieve email from the location state
+  const { login } = useAuth();
 
   const validateEmail = (email: string) => {
     const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -23,46 +25,47 @@ const SignUp: React.FC = () => {
     e.preventDefault();
 
     if (!firstName || !lastName || !email || !password) {
-        setError("All fields are required");
-        setTimeout(() => setError(""), 3000); // Clear error after 3 seconds
-        return;
+      setError("All fields are required");
+      setTimeout(() => setError(""), 3000); // Clear error after 3 seconds
+      return;
     }
 
     if (!validateEmail(email)) {
-        setError("Please enter a valid email address");
-        setTimeout(() => setError(""), 3000); // Clear error after 3 seconds
-        return;
+      setError("Please enter a valid email address");
+      setTimeout(() => setError(""), 3000); // Clear error after 3 seconds
+      return;
     }
 
     setError("");
     setLoading(true);
 
     try {
-        // Retrieve existing users from local storage
-        const existingUsers = JSON.parse(localStorage.getItem("users") || "[]");
+      // Retrieve existing users from local storage
+      const existingUsers = JSON.parse(localStorage.getItem("users") || "[]");
 
-        // Check if email already exists
-        const emailExists = existingUsers.some((user: any) => user.email === email);
-        if (emailExists) {
-            setError("Email already registered");
-            setTimeout(() => setError(""), 3000); // Clear error after 3 seconds
-            return;
-        }
-
-        // Add new user
-        const newUser = { firstName, lastName, email, password };
-        existingUsers.push(newUser);
-
-        // Save updated users array to local storage
-        localStorage.setItem("users", JSON.stringify(existingUsers));
-
-        alert("User registered successfully!");
-        navigate('/login');
-    } catch (err) {
-        setError("An error occurred while saving data. Please try again.");
+      // Check if email already exists
+      const emailExists = existingUsers.some((user: any) => user.email === email);
+      if (emailExists) {
+        setError("Email already registered");
         setTimeout(() => setError(""), 3000); // Clear error after 3 seconds
+        return;
+      }
+
+      // Add new user
+      const newUser = { firstName, lastName, email, password };
+      existingUsers.push(newUser);
+
+      // Save updated users array to local storage
+      localStorage.setItem("users", JSON.stringify(existingUsers));
+
+      // Log in the user and redirect to profile page
+      await login(email);
+      navigate('/profile');
+    } catch (err) {
+      setError("An error occurred while saving data. Please try again.");
+      setTimeout(() => setError(""), 3000); // Clear error after 3 seconds
     } finally {
-        setLoading(false);
+      setLoading(false);
     }
   };
 
@@ -142,11 +145,11 @@ const SignUp: React.FC = () => {
             <button
               type="submit"
               className={`flex justify-center w-full px-4 py-4 text-base font-medium text-white border border-transparent rounded-full ${
-                firstName && lastName && password
+                firstName && lastName && email && password
                   ? "bg-customBlue hover:bg-customLightBlue cursor-pointer"
                   : "bg-gray-400"
               }`}
-              disabled={!firstName || !lastName || !password || loading}
+              disabled={!firstName || !lastName || !email || !password || loading}
             >
               {loading ? "Loading..." : "Sign Up"}
             </button>

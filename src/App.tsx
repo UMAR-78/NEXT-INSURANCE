@@ -2,8 +2,7 @@ import React from "react";
 import {
   BrowserRouter as Router,
   Routes,
-  Route,
-  useLocation,
+  Route
 } from "react-router-dom";
 import Navbar from "./Components/Navbar";
 import Footer from "./Components/Footer";
@@ -16,6 +15,7 @@ import ProtectedRoute from "./Components/ProtectedRoutes";
 import AutoServicesSection from "./Components/AutoServicesSection";
 import WhyNext from "./Components/WhyNext";
 import SignUp from "./Pages/SignUp";
+import { useLocation } from "react-router-dom";
 
 const App: React.FC = () => {
   return (
@@ -31,7 +31,6 @@ const Main: React.FC = () => {
   const location = useLocation();
   const hideHeaderFooter = location.pathname === "/login" || location.pathname === "/signup";
 
-
   return (
     <div className="">
       {!hideHeaderFooter && <Navbar />}
@@ -42,7 +41,6 @@ const Main: React.FC = () => {
         <Route path="/business-insurance" element={<BusinessInsurance />} />
         <Route path="/auto-services" element={<AutoServicesSection />} />
         <Route path="/why-next" element={<WhyNext />} />
-
         <Route
           path="/profile"
           element={
