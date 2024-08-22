@@ -10,3 +10,7 @@
 .grayscale-filter:hover {
   filter: grayscale(0%);
 }
+
+.clip-bg{
+  clip-path: polygon(50% 0%, 100% 0, 100% 57%, 50% 100%, 0 54%, 0 0);
+}

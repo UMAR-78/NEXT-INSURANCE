@@ -16,6 +16,7 @@ import AutoServicesSection from "./Components/AutoServicesSection";
 import WhyNext from "./Components/WhyNext";
 import SignUp from "./Pages/SignUp";
 import { useLocation } from "react-router-dom";
+import PricingSection from "./Components/PricingSection";
 
 const App: React.FC = () => {
   return (
@@ -41,6 +42,8 @@ const Main: React.FC = () => {
         <Route path="/business-insurance" element={<BusinessInsurance />} />
         <Route path="/auto-services" element={<AutoServicesSection />} />
         <Route path="/why-next" element={<WhyNext />} />
+        <Route path="/pricing" element={<PricingSection />} />
+
         <Route
           path="/profile"
           element={
