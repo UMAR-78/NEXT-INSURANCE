@@ -1,43 +1,96 @@
-import React, { createContext, useContext, useState, ReactNode, useEffect } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
+// Define user interface for better type safety
+interface User {
+  firstName: string;
+  lastName: string;
+  email: string;
+  token: string;
+}
 
 interface AuthContextProps {
   isAuthenticated: boolean;
-  login: (email: string) => Promise<void>;
+  user: User | null;
+  login: (email: string, password: string) => Promise<void>;
   logout: () => void;
-  user: any;
+  loading: boolean;
+  error: string | null;
 }
 
 const AuthContext = createContext<AuthContextProps | undefined>(undefined);
 
-export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(!!localStorage.getItem('isAuthenticated'));
-  const [user, setUser] = useState<any>(JSON.parse(localStorage.getItem('user') || 'null'));
+export const AuthProvider: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(
+    !!localStorage.getItem("token")
+  );
+  const [user, setUser] = useState<User | null>(
+    JSON.parse(localStorage.getItem("user") || "null")
+  );
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     if (isAuthenticated && user) {
-      localStorage.setItem('isAuthenticated', 'true');
-      localStorage.setItem('user', JSON.stringify(user));
+      localStorage.setItem("token", user.token);
+      localStorage.setItem("user", JSON.stringify(user));
     } else {
-      localStorage.removeItem('isAuthenticated');
-      localStorage.removeItem('user');
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
     }
   }, [isAuthenticated, user]);
 
-  const login = async (email: string) => {
-    setIsAuthenticated(true);
-    setUser({ email });
-    navigate("/profile");
+  const login = async (email: string, password: string) => {
+    try {
+      const response = await axios.post(
+        "/api/validatePwd",
+        { userEmail: email, userPwd: password },
+        {
+          headers: {
+            "X-Api-Key":
+              "dc6ebb8cf02a24945bd9e15100c16d27e12fbb41ad40cc84aee883f5000b461f", // Include your API key here
+          },
+        }
+      );
+
+      if (response.data.success) {
+        const { token, data: userData } = response.data;
+        const user = { ...userData, token };
+
+        // Set user and authentication state
+        setUser(user);
+        setIsAuthenticated(true);
+
+        // Redirect to the profile page
+        navigate("/profile");
+      } else {
+        throw new Error("Invalid login credentials");
+      }
+    } catch (error) {
+      console.error("Login failed:", error);
+      alert("Login failed. Please check your credentials.");
+    }
   };
 
   const logout = () => {
     setIsAuthenticated(false);
     setUser(null);
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
     navigate("/");
   };
 
-  const value = { isAuthenticated, login, logout, user };
+  const value = { isAuthenticated, user, login, logout, loading, error };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

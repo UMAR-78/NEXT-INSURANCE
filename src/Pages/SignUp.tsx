@@ -3,6 +3,7 @@ import { FcGoogle } from "react-icons/fc";
 import { MdLanguage } from "react-icons/md";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import axios from "axios";
 
 const SignUp: React.FC = () => {
   const [firstName, setFirstName] = useState("");
@@ -23,52 +24,55 @@ const SignUp: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    if (!firstName || !lastName || !email || !password) {
+  
+    if (!firstName || !lastName || !password) {
       setError("All fields are required");
       setTimeout(() => setError(""), 3000); // Clear error after 3 seconds
       return;
     }
-
+  
     if (!validateEmail(email)) {
-      setError("Please enter a valid email address");
+      setError("Invalid email address");
       setTimeout(() => setError(""), 3000); // Clear error after 3 seconds
       return;
     }
-
+  
     setError("");
     setLoading(true);
-
+  
     try {
-      // Retrieve existing users from local storage
-      const existingUsers = JSON.parse(localStorage.getItem("users") || "[]");
-
-      // Check if email already exists
-      const emailExists = existingUsers.some((user: any) => user.email === email);
-      if (emailExists) {
-        setError("Email already registered");
+      // API request to create a user with the email from the login screen
+      const response = await axios.post(
+        "/api/createUser",
+        {
+          userEmail: email, // Use the email passed from the login page
+          userPwd: password,
+          firstName: firstName,
+          lastName: lastName,
+        },
+        {
+          headers: {
+            "X-API-KEY": "dc6ebb8cf02a24945bd9e15100c16d27e12fbb41ad40cc84aee883f5000b461f", // API key in the header
+          }
+        }
+      );
+  
+      if (response.data.success) {
+        // Log in the user and redirect to profile page after successful signup
+        await login(email, password);
+        navigate("/profile");
+      } else {
+        setError(response.data.message || "Signup failed");
         setTimeout(() => setError(""), 3000); // Clear error after 3 seconds
-        return;
       }
-
-      // Add new user
-      const newUser = { firstName, lastName, email, password };
-      existingUsers.push(newUser);
-
-      // Save updated users array to local storage
-      localStorage.setItem("users", JSON.stringify(existingUsers));
-
-      // Logg in the user and redirect to profile page
-      await login(email);
-      navigate('/profile');
     } catch (err) {
-      setError("An error occurred while saving data. Please try again.");
+      setError("An error occurred while signing up. Please try again.");
       setTimeout(() => setError(""), 3000); // Clear error after 3 seconds
     } finally {
       setLoading(false);
     }
   };
-
+  
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
       <header className="flex w-full fixed top-0 left-0 right-0 px-4 md:px-10 py-5 md:py-7 items-center justify-between mb-8 border-b-2 z-50 bg-white">
