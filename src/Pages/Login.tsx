@@ -46,7 +46,7 @@ const Login: React.FC = () => {
         if (response.success) {
           setStep(2); // Proceed to password step
         } else {
-          setApiError("Email not found. Redirecting to signup...");
+          setApiError(`Email not found. Redirecting to signup page...`);
           setTimeout(() => {
             navigate("/signup", { state: { email } }); // Pass email to signup page
           }, 2000);

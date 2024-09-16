@@ -49,11 +49,6 @@ const SignUp: React.FC = () => {
           userPwd: password,
           firstName: firstName,
           lastName: lastName,
-        },
-        {
-          headers: {
-            "X-API-KEY": "dc6ebb8cf02a24945bd9e15100c16d27e12fbb41ad40cc84aee883f5000b461f", // API key in the header
-          }
         }
       );
   
