@@ -50,17 +50,12 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     }
   }, [isAuthenticated, user]);
 
+  // Login function to authenticate the user
   const login = async (email: string, password: string) => {
     try {
       const response = await axios.post(
         "/api/validatePwd",
-        { userEmail: email, userPwd: password },
-        {
-          headers: {
-            "X-Api-Key":
-              "dc6ebb8cf02a24945bd9e15100c16d27e12fbb41ad40cc84aee883f5000b461f", // Include your API key here
-          },
-        }
+        { userEmail: email, userPwd: password }
       );
 
       if (response.data.success) {
@@ -72,7 +67,8 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
         setIsAuthenticated(true);
 
         // Redirect to the profile page
-        navigate("/profile");
+        navigate("/user-profile");
+       // navigate("/profile");
       } else {
         throw new Error("Invalid login credentials");
       }

@@ -137,7 +137,7 @@ const Navbar: React.FC = () => {
                   onMouseLeave={handleMouseLeave}
                 >
                   <Link
-                    to="/profile"
+                    to="/user-profile"
                     className="block px-4 py-2 text-gray-700 hover:text-customBlue"
                   >
                     Profile
@@ -219,7 +219,7 @@ const Navbar: React.FC = () => {
                     onMouseLeave={handleMouseLeave}
                   >
                     <Link
-                      to="/profile"
+                      to="/user-profile"
                       className="block px-4 py-2 text-gray-700 hover:text-customBlue"
                     >
                       Profile
