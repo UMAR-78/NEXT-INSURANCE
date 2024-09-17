@@ -10,6 +10,7 @@ import Home from "./Components/Home";
 import BusinessInsurance from "./Components/BusinessInsurance";
 import Login from "./Pages/Login";
 import Profile from "./Pages/Profile";
+import UserProfile from "./Pages/UserProfile";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./Components/ProtectedRoutes";
 import AutoServicesSection from "./Components/AutoServicesSection";
@@ -52,6 +53,14 @@ const Main: React.FC = () => {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/user-profile"
+          element={
+            <ProtectedRoute>
+              <UserProfile />
+            </ProtectedRoute>
+          }
+          />
       </Routes>
       {!hideHeaderFooter && <Footer />}
     </div>

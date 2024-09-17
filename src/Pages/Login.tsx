@@ -46,7 +46,7 @@ const Login: React.FC = () => {
         if (response.success) {
           setStep(2); // Proceed to password step
         } else {
-          setApiError("Email not found. Redirecting to signup...");
+          setApiError(`Email not found. Redirecting to signup page...`);
           setTimeout(() => {
             navigate("/signup", { state: { email } }); // Pass email to signup page
           }, 2000);
@@ -69,14 +69,14 @@ const Login: React.FC = () => {
       setApiError("");
 
       try {
-        const response = await verifyPasswordAx(email, password);
-        if (response.success) {
+       // const response = await verifyPasswordAx(email, password);
+       // if (response.success) {
           // Correcting the login function call to include both email and password
           await login(email, password);
-          navigate("/profile"); // Redirect to profile page
-        } else {
-          setApiError("Invalid login credentials. Please try again.");
-        }
+       //   navigate("/profile"); // Redirect to profile page
+     //   } else {
+       //   setApiError("Invalid login credentials. Please try again.");
+      //  }
       } catch (err) {
         setApiError("An error occurred while logging in.");
         console.error(err);
@@ -112,7 +112,7 @@ const Login: React.FC = () => {
       return { success: false };
     }
   };
-
+/*
   const verifyPasswordAx = async (
     userEmail: string,
     userPwd: string
@@ -140,7 +140,7 @@ const Login: React.FC = () => {
       };
     }
   };
-
+*/
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
       <header className="flex w-full fixed top-0 left-0 right-0 px-4 md:px-10 py-5 md:py-7 items-center justify-between mb-8 border-b-2 z-50 bg-white">
