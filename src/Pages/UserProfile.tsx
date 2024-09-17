@@ -8,14 +8,45 @@ import { useEffect, useState } from "react";
 // Function to display the user's profile information from local storage
 function UserProfile() {
   const [profileInfo, setProfileInfo] = useState<JSON | null>(null);
+  const [dataValidFlag, setDataValidFlag] = useState<boolean | null>(null);
+  const [profileFoundFlag, setProfileFoundFlag] = useState<boolean | null>(null);
+  const [userDataDisp, setUserDataDisp] = useState<JSON | null>(null);
+  const [profileDataDisp, setProfileDataDisp] = useState<JSON | null>(null);
+  const [userEmail, setUserEmail] = useState<string | null>(null);
 
   useEffect(() => {
     const userData = localStorage.getItem("user");
-    const userDataJson = userData ? JSON.parse(userData) : null;
-    console.log(userDataJson.profileInfo);
+    if (!userData) {
+      console.log("User data not found in local storage");
+      setDataValidFlag(false);
+    } else {
+      setDataValidFlag(true);
 
-    if (userDataJson.profileInfo.profileFoundFlag) {
-      setProfileInfo(userDataJson.profileInfo.data);
+      const userDataJson = userData ? JSON.parse(userData) : null;
+      console.log(`User data from API server: ${JSON.stringify(userDataJson)}`);
+
+      const userEmail = userDataJson.userEmail;
+      setUserEmail(userEmail);
+      console.log(`User email: ${userEmail}`);
+
+
+      const userDataDisp: any = {
+        userEmail: userDataJson.userEmail, userFirstName: userDataJson.userFirstName,
+        userLastName: userDataJson.userLastName, userUiId: userDataJson.userUiId
+      };
+      setUserDataDisp(userDataDisp);
+      console.log(`User data: ${JSON.stringify(userDataDisp)}`);
+
+      if (!userDataJson.profileInfo.profileFoundFlag) {
+        setProfileFoundFlag(false);
+        console.log("Profile data not found");
+      } else {
+        console.log("Profile data found");
+        const profileDataDisp: any = userDataJson.profileInfo;
+        setProfileFoundFlag(true);
+        setProfileDataDisp(profileDataDisp);
+        console.log(`Profile data: ${JSON.stringify(profileDataDisp)}`);
+      }
     }
   }, []);
 
@@ -23,16 +54,14 @@ function UserProfile() {
   // Display the user's profile information - needs to be formatted properly
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
-          {profileInfo ? (      <div>
-      <h1 className="text-2xl md:text-4xl font-extrabold">Welcome to Your Profile</h1>
-      <p className="mt-4 text-xl">User data to be formatted properly... {JSON.stringify(profileInfo)} </p>
-      </div>) : (      <div>
-      <h1 className="text-2xl md:text-4xl font-extrabold">Welcome to Your Profile</h1>
-      <p className="mt-4 text-xl">This is a protected page....X</p>
-      </div>) }
+      {(userEmail) ? (<div><b>User email: {userEmail}</b></div>) : (<div><b>User email not available</b></div>)}
+      {(dataValidFlag) ? (<div><b>Account profile data </b><br /> {JSON.stringify(userDataDisp)}</div>) : (<div><b>Account profile data not available</b></div>)}
+      {(profileFoundFlag) ? (<div><b>Company profile data </b><br /> {JSON.stringify(profileDataDisp)}</div>) : (<div><b>Company profile data not available</b></div>)}
 
     </div>
   );
+
+
 };
 
 export default UserProfile;
